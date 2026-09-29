@@ -1,0 +1,36 @@
+version: "3.9"
+services:
+  qdrant:
+    image: qdrant/qdrant:latest
+    ports:
+      - "6333:6333"
+      - "6334:6334"
+    volumes:
+      - qdrant_data:/qdrant/storage
+
+  sqlserver:
+    image: mcr.microsoft.com/mssql/server:2022-latest
+    environment:
+      ACCEPT_EULA: "Y"
+      MSSQL_SA_PASSWORD: "YourStrong!Passw0rd"
+    ports:
+      - "1433:1433"
+    volumes:
+      - sql_data:/var/opt/mssql
+
+  api:
+    build:
+      context: .
+      dockerfile: PaymentRagAssistant.Api/Dockerfile
+    ports:
+      - "5000:8080"
+    depends_on:
+      - qdrant
+      - sqlserver
+    environment:
+      Qdrant__Host: qdrant
+      ConnectionStrings__Analytics: "Server=sqlserver;Database=PaymentRagAssistant;User Id=sa;Password=YourStrong!Passw0rd;TrustServerCertificate=True;"
+
+volumes:
+  qdrant_data:
+  sql_data:

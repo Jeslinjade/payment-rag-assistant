@@ -1,0 +1,8 @@
+bin/
+obj/
+*.user
+.vs/
+appsettings.Development.json
+
+# Keep secrets out of git - Groq key lives in appsettings.json
+appsettings.json
