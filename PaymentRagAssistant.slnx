@@ -3,4 +3,5 @@
   <Project Path="PaymentRagAssistant.Application/PaymentRagAssistant.Application.csproj" />
   <Project Path="PaymentRagAssistant.Infrastructure/PaymentRagAssistant.Infrastructure.csproj" />
   <Project Path="PaymentRagAssistant.Ingestion/PaymentRagAssistant.Ingestion.csproj" />
+  <Project Path="PaymentRagAssistant.TestClient/PaymentRagAssistant.TestClient.csproj" />
 </Solution>

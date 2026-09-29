@@ -69,7 +69,11 @@ public class RagOrchestrator
             var retrieved = await _vectorStore.SearchAsync(embedding, TopKPerSearch, ct);
             graded = await _grader.GradeAsync(currentQuery, retrieved, ct);
 
-            if (_grader.IsSufficient(graded))
+            var topScore = graded.Count == 0 ? 0f : graded.Max(c => c.RelevanceGrade ?? 0f);
+            var sufficient = _grader.IsSufficient(graded);
+            Console.WriteLine($"[pipeline] attempt {attempt}: query=\"{currentQuery}\" topGrade={topScore:0.00} sufficient={sufficient}");
+
+            if (sufficient)
                 break;
 
             lastFailureReason = "retrieved documents were not relevant enough";
